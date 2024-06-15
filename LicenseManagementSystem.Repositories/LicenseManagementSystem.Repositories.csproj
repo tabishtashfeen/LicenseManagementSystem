@@ -1,9 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\LicenseManagementSystem.Common\LicenseManagementSystem.Common.csproj" />
+		<ProjectReference Include="..\LicenseManagementSystem.DataAccess\LicenseManagementSystem.DataAccess.csproj" />
+		<ProjectReference Include="..\LicenseManagementSystem.Models\LicenseManagementSystem.Models.csproj" />
+		<Using Include="LicenseManagementSystem.Common.RequestModels" />
+		<Using Include="LicenseManagementSystem.DataAccess.Context" />
+		<Using Include="LicenseManagementSystem.Models.User" />
+		<Using Include="Microsoft.EntityFrameworkCore" />
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+		<Using Include="LicenseManagementSystem.Repositories" />
+	</ItemGroup>
 
 </Project>

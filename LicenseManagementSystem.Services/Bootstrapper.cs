@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LicenseManagementSystem.Services.Authentication;
 
 namespace LicenseManagementSystem.Services
 {
@@ -11,7 +6,8 @@ namespace LicenseManagementSystem.Services
     {
         public static void Initialize(IServiceCollection services)
         {
-
+            LicenseManagementSystem.Repositories.Bootstrapper.Initialize(services);
+            services.AddScoped<IAuthService, AuthService>();
         }
     }
 }
