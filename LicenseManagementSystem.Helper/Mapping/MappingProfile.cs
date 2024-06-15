@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LicenseManagementSystem.Common.RequestModels;
 using LicenseManagementSystem.Common.ResponseModels;
+using LicenseManagementSystem.Models.License;
 using LicenseManagementSystem.Models.Product;
 
 namespace LicenseManagementSystem.Helper.Mapping
@@ -11,6 +12,8 @@ namespace LicenseManagementSystem.Helper.Mapping
         {
             CreateMap<Product, ProductResponseModel>().ReverseMap();
             CreateMap<Product, CreateProductRequestModel>().ReverseMap();
+            CreateMap<License, LicenseResponseModel>().ReverseMap();
+            CreateMap<License, CreateLicenseRequestModel>().ReverseMap();
         }
     }
 }

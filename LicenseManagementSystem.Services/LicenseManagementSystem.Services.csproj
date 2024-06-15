@@ -13,6 +13,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\LicenseManagementSystem.Common\LicenseManagementSystem.Common.csproj" />
+		<ProjectReference Include="..\LicenseManagementSystem.Helper\LicenseManagementSystem.Helper.csproj" />
 		<ProjectReference Include="..\LicenseManagementSystem.Models\LicenseManagementSystem.Models.csproj" />
 		<ProjectReference Include="..\LicenseManagementSystem.Repositories\LicenseManagementSystem.Repositories.csproj" />
 		<Using Include="LicenseManagementSystem.Common.RequestModels" />

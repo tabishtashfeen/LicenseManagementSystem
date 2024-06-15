@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LicenseManagementSystem.Models.License
+namespace LicenseManagementSystem.Common.RequestModels
 {
-    [Table("Licenses")]
-    public class License : BaseModel
+    public class CreateLicenseRequestModel
     {
+        public long Id { get; set; }
         public string Key { get; set; }
         public long ProductId { get; set; }
         public long UserId { get; set; }
-        public bool IsActivated { get; set; } = false;
+        public bool IsActivated { get; set; }
     }
 }

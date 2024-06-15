@@ -35,7 +35,23 @@ namespace LicenseManagementSystem.Services.Authentication
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 UserName = user.UserName,
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                Role = "User"
+            });
+            var updated = _unitOfWork.SaveWithCount();
+            return updated == 1;
+        }
+        public async Task<bool> CreateNewAdminUserService(CreateUserRequestModel user)
+        {
+            await _authRepo.CreateNewUser(new User()
+            {
+                Email = user.Email,
+                Password = user.Password,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                CreatedDate = DateTime.Now,
+                Role = "Admin"
             });
             var updated = _unitOfWork.SaveWithCount();
             return updated == 1;

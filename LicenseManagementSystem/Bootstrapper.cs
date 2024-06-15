@@ -1,4 +1,5 @@
-﻿using LicenseManagementSystem.Helper.Mapping;
+﻿using LicenseManagementSystem.Helper.Functions;
+using LicenseManagementSystem.Helper.Mapping;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -11,6 +12,7 @@ namespace LicenseManagementSystem
     {
         public static void Initialize(IServiceCollection services)
         {
+            services.AddScoped<IEmailService, EmailService>();
             LicenseManagementSystem.Services.Bootstrapper.Initialize(services);
 
             services.AddCors(options =>

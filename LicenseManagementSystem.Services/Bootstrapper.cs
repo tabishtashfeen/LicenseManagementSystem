@@ -1,4 +1,6 @@
 ﻿using LicenseManagementSystem.Services.Authentication;
+using LicenseManagementSystem.Services.License;
+using LicenseManagementSystem.Services.Product;
 
 namespace LicenseManagementSystem.Services
 {
@@ -8,6 +10,8 @@ namespace LicenseManagementSystem.Services
         {
             LicenseManagementSystem.Repositories.Bootstrapper.Initialize(services);
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ILicenseService, LicenseService>();
+            services.AddScoped<IProductsService, ProductsService>();
         }
     }
 }

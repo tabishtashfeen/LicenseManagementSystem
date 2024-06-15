@@ -1,6 +1,8 @@
-﻿using LicenseManagementSystem.Services.Authentication;
+﻿using Azure;
+using LicenseManagementSystem.Services.Authentication;
+using Microsoft.AspNetCore.Http;
 
-namespace LicenseMS.Tests
+namespace LicenseManagementSystem.Tests.Tests
 {
     public class AuthControllerTests
     {
@@ -17,55 +19,114 @@ namespace LicenseMS.Tests
         [Test]
         public async Task AuthenticateUser_ReturnsTokenResponse()
         {
-            var authRequest = new AuthRequestModel { };
+            var authRequest = new AuthRequestModel { Email = "demo@email.co", Password = "password" };
             var tokenResponse = "token";
             _mockAuthService.Setup(service => service.AuthenticateUserService(authRequest))
                 .ReturnsAsync(tokenResponse);
 
             var result = await _controller.AuthenticateUser(authRequest);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(tokenResponse, result.Result);
+            Assert.IsInstanceOf<OkObjectResult>(result);
+            var okRequestResult = result as OkObjectResult;
+            Assert.AreEqual(StatusCodes.Status200OK, okRequestResult.StatusCode);
+            var baseResponse = okRequestResult.Value as BaseResponse;
+            Assert.IsInstanceOf<BaseResponse>(baseResponse);
+            Assert.IsTrue(baseResponse.Success);
+            Assert.AreEqual(tokenResponse, baseResponse.Result);
         }
 
         [Test]
         public async Task AuthenticateUser_UserDoesNotExist()
         {
-            var authRequest = new AuthRequestModel {  };
+            var authRequest = new AuthRequestModel { Email = "demo@email.co", Password = "password" };
             var tokenResponse = "user doesnt exists";
             _mockAuthService.Setup(service => service.AuthenticateUserService(authRequest))
                 .ReturnsAsync(tokenResponse);
 
             var result = await _controller.AuthenticateUser(authRequest);
 
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual(tokenResponse, result.Message);
+            Assert.IsInstanceOf<BadRequestObjectResult>(result);
+            var badRequestResult = result as BadRequestObjectResult;
+            Assert.AreEqual(StatusCodes.Status400BadRequest, badRequestResult.StatusCode);
+            Assert.IsInstanceOf<BaseResponse>(badRequestResult.Value);
+            var baseResponse = badRequestResult.Value as BaseResponse;
+
+            Assert.IsFalse(baseResponse.Success);
+            Assert.AreEqual(tokenResponse, baseResponse.Message);
         }
 
         [Test]
         public async Task CreateNewUserService_UserCreatedSuccessfully()
         {
-            var createUserRequest = new CreateUserRequestModel {  };
+            var createUserRequest = new CreateUserRequestModel { FirstName = "John", LastName = "Doe", UserName = "johnDoe", Email = "John@doe.co", Password = "00001111" };
             _mockAuthService.Setup(service => service.CreateNewUserService(createUserRequest))
                 .ReturnsAsync(true);
 
-            var result = await _controller.CreateNewUserService(createUserRequest);
+            var result = await _controller.CreateNewUser(createUserRequest);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual("User successfully created.", result.Result);
+            Assert.IsInstanceOf<OkObjectResult>(result);
+            var okRequestResult = result as OkObjectResult;
+            Assert.AreEqual(StatusCodes.Status200OK, okRequestResult.StatusCode);
+            var baseResponse = okRequestResult.Value as BaseResponse;
+
+            Assert.IsTrue(baseResponse.Success);
+            Assert.AreEqual("User successfully created.", baseResponse.Result);
         }
 
         [Test]
         public async Task CreateNewUserService_UserCreationFailed()
         {
-            var createUserRequest = new CreateUserRequestModel {  };
+            var createUserRequest = new CreateUserRequestModel { FirstName = "John", LastName = "Doe", UserName = "johnDoe", Email = "John@doe.co", Password = "00001111" };
             _mockAuthService.Setup(service => service.CreateNewUserService(createUserRequest))
                 .ReturnsAsync(false);
 
-            var result = await _controller.CreateNewUserService(createUserRequest);
+            var result = await _controller.CreateNewUser(createUserRequest);
 
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual("New user not Created", result.Message);
+            Assert.IsInstanceOf<BadRequestObjectResult>(result);
+            var badRequestResult = result as BadRequestObjectResult;
+            Assert.AreEqual(StatusCodes.Status400BadRequest, badRequestResult.StatusCode);
+            Assert.IsInstanceOf<BaseResponse>(badRequestResult.Value);
+            var baseResponse = badRequestResult.Value as BaseResponse;
+
+            Assert.IsFalse(baseResponse.Success);
+            Assert.AreEqual("New user not Created", baseResponse.Message);
+        }
+
+        [Test]
+        public async Task CreateNewAdminUserService_UserCreatedSuccessfully()
+        {
+            var createUserRequest = new CreateUserRequestModel { FirstName = "John", LastName = "Doe", UserName = "johnDoe", Email = "John@doe.co", Password = "00001111" };
+            _mockAuthService.Setup(service => service.CreateNewAdminUserService(createUserRequest))
+                .ReturnsAsync(true);
+
+            var result = await _controller.CreateNewAdminUser(createUserRequest);
+
+            Assert.IsInstanceOf<OkObjectResult>(result);
+            var okRequestResult = result as OkObjectResult;
+            Assert.AreEqual(StatusCodes.Status200OK, okRequestResult.StatusCode);
+            var baseResponse = okRequestResult.Value as BaseResponse;
+
+            Assert.IsTrue(baseResponse.Success);
+            Assert.AreEqual("Admin User successfully created.", baseResponse.Result);
+        }
+
+        [Test]
+        public async Task CreateNewAdminUserService_UserCreationFailed()
+        {
+            var createUserRequest = new CreateUserRequestModel { FirstName = "John", LastName = "Doe", UserName = "johnDoe", Email = "John@doe.co", Password = "00001111" };
+            _mockAuthService.Setup(service => service.CreateNewAdminUserService(createUserRequest))
+                .ReturnsAsync(false);
+
+            var result = await _controller.CreateNewAdminUser(createUserRequest);
+
+            Assert.IsInstanceOf<BadRequestObjectResult>(result);
+            var badRequestResult = result as BadRequestObjectResult;
+            Assert.AreEqual(StatusCodes.Status400BadRequest, badRequestResult.StatusCode);
+            Assert.IsInstanceOf<BaseResponse>(badRequestResult.Value);
+            var baseResponse = badRequestResult.Value as BaseResponse;
+
+            Assert.IsFalse(baseResponse.Success);
+            Assert.AreEqual("New admin user not Created", baseResponse.Message);
         }
     }
 }
