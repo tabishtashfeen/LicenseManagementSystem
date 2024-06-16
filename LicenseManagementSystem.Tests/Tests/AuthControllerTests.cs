@@ -20,7 +20,7 @@ namespace LicenseManagementSystem.Tests.Tests
         public async Task AuthenticateUser_ReturnsTokenResponse()
         {
             var authRequest = new AuthRequestModel { Email = "demo@email.co", Password = "password" };
-            var tokenResponse = "token";
+            var tokenResponse = new TokenResponse() { Token = "Token" };
             _mockAuthService.Setup(service => service.AuthenticateUserService(authRequest))
                 .ReturnsAsync(tokenResponse);
 
@@ -39,7 +39,8 @@ namespace LicenseManagementSystem.Tests.Tests
         public async Task AuthenticateUser_UserDoesNotExist()
         {
             var authRequest = new AuthRequestModel { Email = "demo@email.co", Password = "password" };
-            var tokenResponse = "user doesnt exists";
+            var tokenResponse = new TokenResponse() { };
+            var message = "User doesnt exists";
             _mockAuthService.Setup(service => service.AuthenticateUserService(authRequest))
                 .ReturnsAsync(tokenResponse);
 
@@ -52,7 +53,7 @@ namespace LicenseManagementSystem.Tests.Tests
             var baseResponse = badRequestResult.Value as BaseResponse;
 
             Assert.IsFalse(baseResponse.Success);
-            Assert.AreEqual(tokenResponse, baseResponse.Message);
+            Assert.AreEqual(message, baseResponse.Message);
         }
 
         [Test]

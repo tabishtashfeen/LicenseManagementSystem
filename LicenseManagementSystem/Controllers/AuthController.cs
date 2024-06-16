@@ -30,10 +30,10 @@ namespace LicenseManagementSystem.Controllers
                 }
                 var tokenResponse = await _authService.AuthenticateUserService(user);
                 response.Result = tokenResponse;
-                if (tokenResponse != null && tokenResponse.Contains("user doesnt exists"))
+                if (tokenResponse != null && tokenResponse.Token == null)
                 {
                     response.Success = false;
-                    response.Message = tokenResponse;
+                    response.Message = "User doesnt exists";
                     return BadRequest(response);
                 }
                 return Ok(response);

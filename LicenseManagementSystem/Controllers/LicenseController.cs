@@ -8,7 +8,6 @@ namespace LicenseManagementSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class LicenseController : ControllerBase
     {
         private readonly ILicenseService _licenseService;
@@ -18,6 +17,7 @@ namespace LicenseManagementSystem.Controllers
         }
         [HttpPost]
         [Route("CreateLicenseKey")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateLicenseKey(CreateLicenseRequestModel model)
         {
             BaseResponse response = new();
@@ -44,6 +44,73 @@ namespace LicenseManagementSystem.Controllers
 
                 response.Success = false;
                 response.Message = "Failed to Create the License key!";
+                return BadRequest(response);
+            }
+        }
+        [HttpGet]
+        [Route("GetAllLicenses")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllLicenses()
+        {
+            BaseResponse response = new();
+            try
+            {
+                response.Result = await _licenseService.GetAllLicensesService();
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                response.Success = false;
+                response.Message = "Failed to get all licenses!";
+                return BadRequest(response);
+            }
+        }
+        [HttpGet]
+        [Route("GetUserLicensesById")]
+        [Authorize]
+        public async Task<IActionResult> GetUserLicensesById(long id)
+        {
+            BaseResponse response = new();
+            try
+            {
+                if (id > 0)
+                {
+                    response.Result = await _licenseService.GetUserLicensesByIdService(id);
+                    return Ok(response);
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                response.Success = false;
+                response.Message = "Failed to get all licenses!";
+                return BadRequest(response);
+            }
+        }
+        [HttpGet]
+        [Route("ActiveteLicense")]
+        [Authorize]
+        public async Task<IActionResult> ActiveteLicense(long userId, string key)
+        {
+            BaseResponse response = new();
+            try
+            {
+                if (!string.IsNullOrEmpty(key) && userId > 0)
+                {
+                    response.Result = await _licenseService.ActiveteLicenseService(userId, key);
+                    if (response.Result != null)
+                    {
+                        return Ok(response);
+                    }
+                }
+                response.Success = false;
+                response.Message = "Failed to get all licenses!";
+                return BadRequest(response);
+            }
+            catch (Exception)
+            {
+                response.Success = false;
+                response.Message = "Failed to get all licenses!";
                 return BadRequest(response);
             }
         }

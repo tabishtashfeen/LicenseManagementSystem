@@ -52,6 +52,11 @@ namespace LicenseManagementSystem.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "CreatedDate", "Email", "FirstName", "IsActive", "IsDeleted", "LastName", "ModifiedDate", "Password", "PhoneNumber", "Role", "UserName" },
+                values: new object[] { 1L, null, "admin@lms.com", "Admin", false, false, "User", null, "00001111", null, "Admin", "admin@lms.com" });
         }
 
         /// <inheritdoc />

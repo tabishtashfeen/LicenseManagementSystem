@@ -14,5 +14,6 @@ namespace LicenseManagementSystem.Repositories.Users
             _databaseContext = databaseContext;
         }
         public async Task<User> GetUserById(long id) => await _databaseContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+        public async Task<List<User>> GetAllUsers() => await _databaseContext.Users.Where( x => !x.IsDeleted).ToListAsync();
     }
 }

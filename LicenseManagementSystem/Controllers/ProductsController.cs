@@ -120,7 +120,7 @@ namespace LicenseManagementSystem.Controllers
             }
         }
         [HttpDelete]
-        [Route("CreateProduct")]
+        [Route("DeleteProductById")]
         public async Task<IActionResult> DeleteProductById(long id)
         {
             BaseResponse response = new();

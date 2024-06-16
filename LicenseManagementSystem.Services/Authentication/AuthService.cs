@@ -12,19 +12,22 @@ namespace LicenseManagementSystem.Services.Authentication
     {
         private readonly IAuthRepository _authRepo;
         private readonly IUnitOfWork _unitOfWork;
-        public AuthService(IAuthRepository authRepo, IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public AuthService(IAuthRepository authRepo, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _authRepo = authRepo;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
-        public async Task<string> AuthenticateUserService(AuthRequestModel user)
+        public async Task<TokenResponse> AuthenticateUserService(AuthRequestModel user)
         {
             var userData = await _authRepo.CheckUserExists(user);
             if (userData != null)
             {
-                return await GenerateToken(userData);
+                var userRes = _mapper.Map<UserResponseModel>(userData);
+                return new TokenResponse { Token = await GenerateToken(userData), UserData = userRes };
             }
-            return "user doesnt exists";
+            return new TokenResponse();
         }
         public async Task<bool> CreateNewUserService(CreateUserRequestModel user)
         {

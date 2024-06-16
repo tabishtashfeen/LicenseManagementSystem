@@ -10,6 +10,8 @@ namespace LicenseManagementSystem.Common.ResponseModels
     {
         public long Id { get; set; }
         public string Key { get; set; }
+        public string UserName { get;set; }
+        public string ProductName { get; set; }
         public long ProductId { get; set; }
         public long UserId { get; set; }
         public bool IsActivated { get; set; }

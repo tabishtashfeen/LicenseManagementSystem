@@ -1,6 +1,7 @@
 ﻿using LicenseManagementSystem.Services.Authentication;
 using LicenseManagementSystem.Services.License;
 using LicenseManagementSystem.Services.Product;
+using LicenseManagementSystem.Services.Users;
 
 namespace LicenseManagementSystem.Services
 {
@@ -12,6 +13,7 @@ namespace LicenseManagementSystem.Services
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ILicenseService, LicenseService>();
             services.AddScoped<IProductsService, ProductsService>();
+            services.AddScoped<IUsersService, UsersService>();
         }
     }
 }

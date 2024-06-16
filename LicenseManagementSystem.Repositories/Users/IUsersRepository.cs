@@ -9,5 +9,6 @@ namespace LicenseManagementSystem.Repositories.Users
     public interface IUsersRepository
     {
         Task<User> GetUserById(long id);
+        Task<List<User>> GetAllUsers();
     }
 }
